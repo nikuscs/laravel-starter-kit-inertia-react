@@ -25,3 +25,13 @@ Homestead.yaml
 /.vscode
 /.zed
 /tmp/
+
+# AI agent tools — keep .agents/ and .claude/settings.json tracked
+# Skills/rules are real dirs with symlinks inside (created by `make agents-setup`)
+.claude/settings.local.json
+.claude/skills/
+.claude/rules/
+.codex/
+.codex/skills/
+CLAUDE.md
+AGENTS.md
