@@ -22,11 +22,20 @@ agents-setup: agents-clean
 	@# Symlink shared instructions to project root
 	@ln -sf .agents/CLAUDE.md CLAUDE.md
 	@ln -sf .agents/AGENTS.md AGENTS.md
+	@# Symlink scoped rules as nested CLAUDE.md + AGENTS.md
+	@ln -sf ../.agents/rules/backend.md app/CLAUDE.md
+	@ln -sf ../.agents/rules/backend.md app/AGENTS.md
+	@ln -sf ../.agents/rules/frontend.md resources/CLAUDE.md
+	@ln -sf ../.agents/rules/frontend.md resources/AGENTS.md
 	@echo "Done. Symlinks created:"
 	@ls -1 .claude/skills/ | sed 's/^/  .claude\/skills\//'
-	@echo "  .codex/skills   -> ../.agents/skills"
-	@echo "  CLAUDE.md       -> .agents/CLAUDE.md"
-	@echo "  AGENTS.md       -> .agents/AGENTS.md"
+	@echo "  .codex/skills      -> ../.agents/skills"
+	@echo "  CLAUDE.md          -> .agents/CLAUDE.md"
+	@echo "  AGENTS.md          -> .agents/AGENTS.md"
+	@echo "  app/CLAUDE.md      -> .agents/rules/backend.md"
+	@echo "  app/AGENTS.md      -> .agents/rules/backend.md"
+	@echo "  resources/CLAUDE.md -> .agents/rules/frontend.md"
+	@echo "  resources/AGENTS.md -> .agents/rules/frontend.md"
 
 # Remove existing symlinks (preserves real files like settings.json)
 agents-clean:
@@ -42,3 +51,8 @@ agents-clean:
 	@[ -L .codex/skills ] && rm .codex/skills || true
 	@[ -L CLAUDE.md ] && rm CLAUDE.md || true
 	@[ -L AGENTS.md ] && rm AGENTS.md || true
+	@# Remove nested scoped rules
+	@[ -L app/CLAUDE.md ] && rm app/CLAUDE.md || true
+	@[ -L app/AGENTS.md ] && rm app/AGENTS.md || true
+	@[ -L resources/CLAUDE.md ] && rm resources/CLAUDE.md || true
+	@[ -L resources/AGENTS.md ] && rm resources/AGENTS.md || true
