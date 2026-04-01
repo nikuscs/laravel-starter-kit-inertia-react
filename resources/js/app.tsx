@@ -3,9 +3,16 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { ComponentType } from 'react';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { initializeTheme } from '@/hooks/use-appearance';
+import { useFlashToast } from '@/hooks/use-flash-toast';
 import '../css/app.css';
+
+function FlashToastListener() {
+    useFlashToast();
+    return null;
+}
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -23,6 +30,8 @@ void createInertiaApp({
             <StrictMode>
                 <TooltipProvider delayDuration={0}>
                     <App {...props} />
+                    <FlashToastListener />
+                    <Toaster position="bottom-right" />
                 </TooltipProvider>
             </StrictMode>,
         );

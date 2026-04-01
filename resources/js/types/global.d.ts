@@ -8,5 +8,9 @@ declare module '@inertiajs/core' {
             sidebarOpen: boolean;
             [key: string]: unknown;
         };
+        flashData: {
+            success?: string;
+            error?: string;
+        };
     }
 }

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\AircraftController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserEmailResetNotificationController;
@@ -9,7 +10,6 @@ use App\Http\Controllers\UserEmailVerificationController;
 use App\Http\Controllers\UserEmailVerificationNotificationController;
 use App\Http\Controllers\UserPasswordController;
 use App\Http\Controllers\UserProfileController;
-use App\Http\Controllers\UserTwoFactorAuthenticationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -17,6 +17,7 @@ Route::get('/', fn () => Inertia::render('welcome'))->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function (): void {
     Route::get('dashboard', fn () => Inertia::render('dashboard'))->name('dashboard');
+    Route::resource('aircraft', AircraftController::class);
 });
 
 Route::middleware('auth')->group(function (): void {
@@ -37,9 +38,6 @@ Route::middleware('auth')->group(function (): void {
     // Appearance...
     Route::get('settings/appearance', fn () => Inertia::render('appearance/update'))->name('appearance.edit');
 
-    // User Two-Factor Authentication...
-    Route::get('settings/two-factor', [UserTwoFactorAuthenticationController::class, 'show'])
-        ->name('two-factor.show');
 });
 
 Route::middleware('guest')->group(function (): void {

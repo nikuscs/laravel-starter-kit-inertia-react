@@ -91,6 +91,14 @@ Individual tools when you need them:
 
 Pint runs automatically via hook on every file save. Don't fight it.
 
+## Wayfinder
+
+Wayfinder generates TypeScript route helpers and controller action bindings from Laravel routes. The generated files are gitignored — never edit them by hand.
+
+- Regenerate after changing routes, controllers, or controller method signatures: `php artisan wayfinder:generate`
+- Stale generated files cause TypeScript errors (missing exports, broken `.form()` types). When you see route-related TS errors, regenerate before debugging
+- In dev (`composer dev`), the Vite plugin regenerates automatically on file changes. Manual regeneration is needed outside of dev or after branch switches
+
 ## Testing
 
 - Use Pest syntax: `it()`, `expect()`, chained expectations
