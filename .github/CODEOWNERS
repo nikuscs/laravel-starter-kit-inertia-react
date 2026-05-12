@@ -1,0 +1,10 @@
+/.github/ @nikuscs
+/composer.json @nikuscs
+/composer.lock @nikuscs
+/package.json @nikuscs
+/bun.lock @nikuscs
+/bun.lockb @nikuscs
+/vite.config.* @nikuscs
+/rector.php @nikuscs
+/phpstan*.neon @nikuscs
+/pint.json @nikuscs

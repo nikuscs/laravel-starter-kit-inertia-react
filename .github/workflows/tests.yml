@@ -12,14 +12,20 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   ci:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -41,14 +47,12 @@ jobs:
         with:
           path: vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
 
       - name: Cache Bun Dependencies
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}
-          restore-keys: ${{ runner.os }}-bun-
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
 
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-progress
@@ -89,14 +93,12 @@ jobs:
         with:
           path: /tmp/rector
           key: ${{ runner.os }}-rector-${{ hashFiles('composer.lock') }}
-          restore-keys: ${{ runner.os }}-rector-
 
       - name: Cache PHPStan
         uses: actions/cache@v4
         with:
           path: /tmp/phpstan
           key: ${{ runner.os }}-phpstan-${{ hashFiles('composer.lock') }}
-          restore-keys: ${{ runner.os }}-phpstan-
 
       - name: Create Cache Directories
         run: mkdir -p /tmp/rector /tmp/phpstan
